@@ -4,378 +4,384 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mystery Detective | Case 001</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mystery Detective</title>
 <style>
-* { box-sizing:border-box; margin:0; padding:0; }
-
-body {
-  background:#090b16;
-  color:#f4f2ff;
-  font-family:Arial,sans-serif;
-  padding:18px;
+*{box-sizing:border-box}
+body{
+ margin:0;padding:18px;font-family:Arial,sans-serif;color:#fff;
+ background:radial-gradient(circle at top,#492665,#100b1b 75%);
+ min-height:100vh
 }
-
-header {
-  max-width:950px;
-  margin:auto;
-  padding:20px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid #30334c;
+.container{max-width:950px;margin:auto}
+header{text-align:center;padding:25px 5px}
+header h1{color:#f4cb7b;font-size:clamp(30px,7vw,48px);margin:8px}
+header p{color:#d8c9e9}
+.panel{
+ background:#ffffff12;border:1px solid #79599b;border-radius:18px;
+ padding:20px;margin:16px 0;animation:fade .6s ease;
+ box-shadow:0 8px 25px #0005
 }
-
-.logo { color:#b69aff; font-weight:bold; letter-spacing:2px; }
-
-.score {
-  background:#25213b;
-  padding:10px 15px;
-  border-radius:20px;
-  color:#d3baff;
+@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{box-shadow:0 0 8px #b47bdf}50%{box-shadow:0 0 28px #b47bdf}}
+h2{color:#f4cb7b}
+h3{color:#e8d3ff}
+button{
+ background:#8c56b9;color:white;border:0;border-radius:10px;
+ padding:13px 17px;margin:5px;font-weight:bold;font-size:15px;
+ cursor:pointer;transition:.2s
 }
-
-main { max-width:950px; margin:35px auto; }
-
-h1 { font-size:clamp(30px,6vw,48px); margin-bottom:10px; }
-h1 span { color:#a78bfa; }
-
-.subtitle { color:#a8adc4; line-height:1.7; }
-
-.panel {
-  background:#15192a;
-  border:1px solid #343750;
-  border-radius:15px;
-  padding:22px;
-  margin:22px 0;
+button:hover{background:#ad7bd2;transform:translateY(-2px)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.secondary{background:#49345f}
+.choice{
+ display:block;width:100%;text-align:left;background:#30213f;
+ border:1px solid #76548e;margin:8px 0;padding:14px
 }
-
-h2 { color:#c5aaff; margin-bottom:16px; }
-
-.grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-
-.item {
-  background:#20243a;
-  border:1px solid #414663;
-  border-radius:12px;
-  padding:17px;
-}
-
-.item h3 { margin-bottom:9px; }
-.item p { color:#b8bdd0; line-height:1.6; font-size:14px; }
-
-button {
-  background:#8059d6;
-  color:white;
-  border:0;
-  border-radius:9px;
-  padding:12px 17px;
-  margin-top:13px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:hover { background:#a080f1; }
-button:disabled { opacity:.5; cursor:default; }
-
-button.secondary { background:#343953; }
-button.correct { background:#247c60; }
-button.wrong { background:#93424f; }
-
-.question {
-  background:#20243a;
-  border-radius:12px;
-  padding:17px;
-  margin:15px 0;
-}
-
-.question p { margin-bottom:8px; line-height:1.6; }
-
-.option {
-  display:block;
-  width:100%;
-  text-align:left;
-  margin-top:9px;
-  background:#303550;
-}
-
-.feedback { color:#d3baff; margin-top:10px; line-height:1.6; }
-
-.result {
-  text-align:center;
-  padding:30px 10px;
-}
-
-.result h2 { font-size:30px; }
-
-.small { color:#9199b3; font-size:12px; margin-top:25px; }
-
-@media(max-width:550px) {
-  body { padding:12px; }
-  header { align-items:flex-start; gap:10px; }
-  .grid { grid-template-columns:1fr; }
-  .panel { padding:16px; }
-}
+.correct{background:#176b4c!important}
+.wrong{background:#963746!important}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{background:#291d39;border:1px solid #604879;border-radius:12px;padding:15px}
+.small{font-size:14px;color:#d1c4e0}
+#timer{font-size:27px;color:#f4cb7b;font-weight:bold}
+#feedback{color:#f4cb7b;font-weight:bold;line-height:1.5}
+#hintBox{color:#ffe5a6;padding:12px;border:1px dashed #d6ad62;border-radius:10px;margin-top:12px}
+.progress{height:10px;background:#281c37;border-radius:20px;overflow:hidden}
+#progressBar{height:100%;width:0;background:#f4cb7b;transition:.4s}
+[hidden]{display:none!important}
+.reveal{animation:glow 1.5s infinite;border-color:#d6adff}
+footer{text-align:center;color:#b9a9cb;padding:20px;font-size:13px}
 </style>
 </head>
-
 <body>
+<div class="container">
 
 <header>
-  <div class="logo">🔎 MYSTERY DETECTIVE</div>
-  <div class="score">SCORE: <span id="score">0</span>/5</div>
+ <div style="font-size:42px">🔎 💎 🕵️</div>
+ <h1>MYSTERY DETECTIVE</h1>
+ <p>The Case of the Missing Diamond</p>
 </header>
 
-<main>
-  <p class="logo">CLASSIFIED CASE FILE #001</p>
-  <h1>THE MISSING <span>DIAMOND</span></h1>
-  <p class="subtitle">
-    Blackthorn Museum • 8:45 PM
-    <br>
-    The Star of Aurora has disappeared during a blackout.
-    Investigate the evidence and discover the culprit.
-  </p>
+<section class="panel" id="startScreen">
+ <h2>Welcome, Detective!</h2>
+ <p>The priceless <b>Star of Aurora</b> diamond has disappeared from Blackthorn Museum!</p>
+ <p>At exactly <b>8:45 PM</b>, a sudden blackout occurred. Four people were inside the museum. One of them is responsible.</p>
+ <h3>Your Mission</h3>
+ <ul>
+  <li>Inspect all four clues.</li>
+  <li>Answer the investigation questions.</li>
+  <li>Interrogate all four suspects.</li>
+  <li>Accuse the culprit before time runs out.</li>
+ </ul>
+ <p>⏱️ Time limit: 8 minutes</p>
+ <p>🏆 Maximum score: 5 points</p>
+ <button onclick="startGame()">START INVESTIGATION</button>
+</section>
 
-  <section class="panel">
-    <h2>📁 Case Instructions</h2>
-    <p class="subtitle">
-      1. Examine all four suspects.<br>
-      2. Investigate the four pieces of evidence.<br>
-      3. Answer each evidence question.<br>
-      4. Accuse the person responsible.<br>
-      You have 5 possible points. Think carefully, Detective!
-    </p>
-  </section>
+<main id="gameArea" hidden>
 
-  <section class="panel">
-    <h2>🕵️ Suspect Profiles</h2>
-    <div class="grid">
+<section class="panel">
+ <div class="grid">
+  <div><span class="small">TIME REMAINING</span><div id="timer">08:00</div></div>
+  <div><span class="small">YOUR SCORE</span><div id="score" style="font-size:25px">0 / 5</div></div>
+  <div><span class="small">QUESTIONS COMPLETED</span><div id="completed" style="font-size:25px">0 / 4</div></div>
+ </div>
+ <p class="small">Investigation progress</p>
+ <div class="progress"><div id="progressBar"></div></div>
+</section>
 
-      <article class="item">
-        <h3>👩 Ava Morgan</h3>
-        <p>Museum curator. Responsible for protecting the diamond. Claims she was preparing the museum's closing report.</p>
-        <button onclick="interrogate(0)">Interrogate</button>
-        <p id="sus0" class="feedback"></p>
-      </article>
+<section class="panel">
+ <h2>📖 The Case</h2>
+ <p>The museum's prized diamond vanished during the blackout. The security system recorded suspicious activity, and the backup generator was manually disabled.</p>
+ <p>Find the evidence, compare the suspects' stories, and discover who stole the diamond!</p>
+</section>
 
-      <article class="item">
-        <h3>👨 Liam Carter</h3>
-        <p>Security guard. Monitored the museum cameras during the incident.</p>
-        <button onclick="interrogate(1)">Interrogate</button>
-        <p id="sus1" class="feedback"></p>
-      </article>
+<section class="panel">
+ <h2>👥 Suspect Files</h2>
+ <div class="grid">
+  <div class="card"><h3>👩 Ava Morgan</h3><b>Curator</b><p class="small">Responsible for protecting the museum collection.</p></div>
+  <div class="card"><h3>👨 Liam Carter</h3><b>Security Guard</b><p class="small">In charge of monitoring security cameras.</p></div>
+  <div class="card"><h3>👩 Mia Bennett</h3><b>Event Planner</b><p class="small">Organized the museum's evening event.</p></div>
+  <div class="card"><h3>👨 Noah Price</h3><b>Technician</b><p class="small">Responsible for electrical maintenance.</p></div>
+ </div>
+</section>
 
-      <article class="item">
-        <h3>👩 Mia Bennett</h3>
-        <p>Event planner. Organized the private museum event that evening.</p>
-        <button onclick="interrogate(2)">Interrogate</button>
-        <p id="sus2" class="feedback"></p>
-      </article>
+<section class="panel">
+ <h2>🔍 Evidence Room</h2>
+ <p class="small">Select a clue to investigate it and answer its question.</p>
+ <div class="grid" id="clueCards"></div>
+ <div id="questionArea" style="margin-top:20px"></div>
+ <div id="feedback"></div>
+ <button class="secondary" onclick="showHint()">💡 GET A HINT</button>
+ <div id="hintBox" hidden></div>
+</section>
 
-      <article class="item">
-        <h3>👨 Noah Price</h3>
-        <p>Museum technician. Maintained the electrical system and had access to the service rooms.</p>
-        <button onclick="interrogate(3)">Interrogate</button>
-        <p id="sus3" class="feedback"></p>
-      </article>
+<section class="panel">
+ <h2>🗣️ Interrogation Room</h2>
+ <p class="small">Read each suspect's statement carefully.</p>
+ <div class="grid" id="suspectCards"></div>
+</section>
 
-    </div>
-  </section>
-
-  <section class="panel">
-    <h2>🔍 Evidence Room</h2>
-    <p class="subtitle">Inspect every clue to unlock the investigation questions.</p>
-
-    <div class="grid">
-      <article class="item">
-        <h3>📹 Evidence 01</h3>
-        <p>Security footage shows someone wearing a maintenance uniform entering the restricted hallway.</p>
-        <button onclick="inspect(0)">Inspect clue</button>
-      </article>
-
-      <article class="item">
-        <h3>🔑 Evidence 02</h3>
-        <p>The maintenance access record shows Noah's technician key was used at 8:42 PM.</p>
-        <button onclick="inspect(1)">Inspect clue</button>
-      </article>
-
-      <article class="item">
-        <h3>⚡ Evidence 03</h3>
-        <p>The generator log shows the backup power was manually disabled shortly before the blackout.</p>
-        <button onclick="inspect(2)">Inspect clue</button>
-      </article>
-
-      <article class="item">
-        <h3>📋 Evidence 04</h3>
-        <p>The maintenance report contains an altered entry hiding a service-room visit at 8:42 PM.</p>
-        <button onclick="inspect(3)">Inspect clue</button>
-      </article>
-    </div>
-  </section>
-
-  <section class="panel" id="questions">
-    <h2>🧩 Detective Challenge</h2>
-    <p class="subtitle">Inspect the clues to unlock their questions.</p>
-    <div id="quiz"></div>
-  </section>
-
-  <section class="panel">
-    <h2>⚖️ Final Accusation</h2>
-    <p class="subtitle">Who stole the Star of Aurora? Select your suspect carefully.</p>
-
-    <div class="grid" id="accusations">
-      <button onclick="accuse('Ava')">Ava Morgan</button>
-      <button onclick="accuse('Liam')">Liam Carter</button>
-      <button onclick="accuse('Mia')">Mia Bennett</button>
-      <button onclick="accuse('Noah')">Noah Price</button>
-    </div>
-
-    <div id="ending" class="result" style="display:none"></div>
-  </section>
-
-  <p class="small">MYSTERY DETECTIVE © 2026 • BLACKTHORN MUSEUM CASE FILE</p>
+<section class="panel">
+ <h2>⚖️ Final Accusation</h2>
+ <p>Who stole the Star of Aurora diamond?</p>
+ <div class="grid">
+  <button class="choice" onclick="accuse('Ava Morgan')">Ava Morgan</button>
+  <button class="choice" onclick="accuse('Liam Carter')">Liam Carter</button>
+  <button class="choice" onclick="accuse('Mia Bennett')">Mia Bennett</button>
+  <button class="choice" onclick="accuse('Noah Price')">Noah Price</button>
+ </div>
+ <p class="small">Complete all four clue questions before making your final accusation.</p>
+</section>
 </main>
 
+<section class="panel" id="result" hidden>
+ <h2 id="resultTitle">Case Closed!</h2>
+ <div id="resultContent"></div>
+ <button onclick="location.reload()">🔄 PLAY AGAIN</button>
+</section>
+
+<footer>BLACKTHORN MUSEUM • MYSTERY DETECTIVE</footer>
+</div>
+
 <script>
-let score = 0;
-let inspected = [false,false,false,false];
-let answered = [false,false,false,false];
-let interrogated = [false,false,false,false];
-let accused = false;
-
-const questions = [
+const clues=[
  {
-  q:"What does the maintenance uniform in the footage suggest?",
-  a:["The person may have had authorized service access.",
-     "The person was a museum visitor.",
-     "The person was a delivery driver."],
-  correct:0,
-  why:"The uniform suggests someone with maintenance access could enter the restricted hallway."
+  title:"Clue 1: Security Footage",
+  desc:"A blurry camera recording shows someone wearing a maintenance uniform entering the restricted hallway shortly before the blackout.",
+  question:"What does the footage suggest?",
+  options:["A visitor entered the museum","Someone disguised as maintenance staff entered the restricted hallway","The curator left the building"],
+  answer:1,
+  hint:"Look at the clothing worn by the suspicious person.",
+  explanation:"The person wore a maintenance uniform, suggesting someone used a disguise."
  },
  {
-  q:"Whose key was used at 8:42 PM?",
-  a:["Ava's curator key","Liam's security key","Noah's technician key"],
-  correct:2,
-  why:"The access record specifically identifies Noah's technician key."
+  title:"Clue 2: Access Key",
+  desc:"Electronic lock records show that Noah's technician key was used at 8:42 PM to open the restricted service-room door.",
+  question:"Whose key was used at 8:42 PM?",
+  options:["Ava's key","Liam's key","Noah's technician key"],
+  answer:2,
+  hint:"Check the access record and the technician's name.",
+  explanation:"The electronic record identifies Noah's technician key."
  },
  {
-  q:"What happened to the backup generator?",
-  a:["It was manually disabled.",
-     "It ran normally.",
-     "It was replaced."],
-  correct:0,
-  why:"The generator log shows deliberate manual interference before the blackout."
+  title:"Clue 3: Disabled Generator",
+  desc:"The backup generator was manually switched off shortly before the blackout. Only someone familiar with the electrical system could easily do this.",
+  question:"What does the generator evidence suggest?",
+  options:["The blackout was caused by rain","Someone deliberately disabled the generator","The museum ran out of electricity"],
+  answer:1,
+  hint:"Was the generator failure accidental or deliberate?",
+  explanation:"The generator was manually disabled, suggesting a planned blackout."
  },
  {
-  q:"What was hidden in the altered maintenance report?",
-  a:["A visitor complaint.",
-     "A service-room visit at 8:42 PM.",
-     "A broken display case."],
-  correct:1,
-  why:"The altered entry concealed a service-room visit at the critical time."
+  title:"Clue 4: Altered Report",
+  desc:"A maintenance report was edited to hide a visit to the service room at 8:42 PM.",
+  question:"Why is the altered report suspicious?",
+  options:["It hides a service-room visit","It contains the museum's opening hours","It lists the event guests"],
+  answer:0,
+  hint:"Think about what someone might want to conceal.",
+  explanation:"The altered report hides an important visit at the same time as the suspicious key use."
  }
 ];
 
-const statements = [
- "Ava: I was preparing the closing report. I did not enter the service room.",
- "Liam: I noticed the camera feed went dark. I was at the security desk.",
- "Mia: I was checking the event decorations. I had no reason to enter the service area.",
- "Noah: I was checking the electrical system. I know the generator and service rooms."
+const statements=[
+ ["Ava Morgan","I was checking the guest list in my office when the lights went out."],
+ ["Liam Carter","I was at the security station. The cameras suddenly stopped working."],
+ ["Mia Bennett","I was helping guests in the main hall during the blackout."],
+ ["Noah Price","I was fixing a lighting problem. I never entered the restricted service room."]
 ];
 
-function updateScore() {
- document.getElementById("score").textContent = score;
-}
+let score=0;
+let completed=0;
+let current=0;
+let timeLeft=480;
+let timerInterval=null;
+let gameOver=false;
+let answered=[false,false,false,false];
 
-function interrogate(i) {
- document.getElementById("sus"+i).textContent = statements[i];
- if(!interrogated[i]) {
-  interrogated[i] = true;
- }
-}
+function startGame(){
+ document.getElementById("startScreen").hidden=true;
+ document.getElementById("gameArea").hidden=false;
+ renderClues();
+ renderSuspects();
+ showQuestion(0);
 
-function inspect(i) {
- inspected[i] = true;
- renderQuiz();
- alert("Evidence "+(i+1)+" inspected! Read the clue and answer its question below.");
-}
+ timerInterval=setInterval(function(){
+  if(gameOver)return;
+  timeLeft--;
+  let min=Math.floor(timeLeft/60);
+  let sec=timeLeft%60;
+  document.getElementById("timer").textContent=
+   String(min).padStart(2,"0")+":"+String(sec).padStart(2,"0");
 
-function renderQuiz() {
- let html = "";
- questions.forEach((q,i) => {
-  html += `<div class="question">
-    <h3>Evidence ${i+1} Question</h3>`;
-
-  if(!inspected[i]) {
-   html += `<p>🔒 Inspect Evidence ${i+1} first to unlock this question.</p>`;
-  } else if(answered[i]) {
-   html += `<p>Question completed.</p><p class="feedback">${q.why}</p>`;
-  } else {
-   html += `<p>${q.q}</p>`;
-   q.a.forEach((option,j) => {
-    html += `<button class="option" onclick="answer(${i},${j})">${option}</button>`;
-   });
+  if(timeLeft<=60){
+   document.getElementById("timer").style.color="#ff7777";
   }
-  html += `</div>`;
- });
- document.getElementById("quiz").innerHTML = html;
+  if(timeLeft<=0){
+   endGame(false,"Time is up! The museum's thief escaped.");
+  }
+ },1000);
 }
 
-function answer(i,j) {
- if(answered[i] || !inspected[i]) return;
- answered[i] = true;
+function renderClues(){
+ const box=document.getElementById("clueCards");
+ box.innerHTML="";
 
- if(j === questions[i].correct) {
+ clues.forEach(function(c,i){
+  const div=document.createElement("button");
+  div.className="card choice";
+  div.textContent=(answered[i]?"✅ ":"🔐 ")+c.title+
+   (answered[i]?" — Completed":" — Inspect clue");
+  div.onclick=function(){showQuestion(i)};
+  box.appendChild(div);
+ });
+}
+
+function showQuestion(i){
+ if(gameOver)return;
+ current=i;
+ document.getElementById("hintBox").hidden=true;
+ document.getElementById("feedback").textContent="";
+ const q=clues[i];
+ const area=document.getElementById("questionArea");
+
+ area.innerHTML="<h3>"+q.title+"</h3><p>"+q.desc+"</p><b>"+q.question+"</b>";
+
+ q.options.forEach(function(option,index){
+  const btn=document.createElement("button");
+  btn.className="choice";
+  btn.textContent=String.fromCharCode(65+index)+". "+option;
+  btn.disabled=answered[i];
+  btn.onclick=function(){answerQuestion(index,btn)};
+  area.appendChild(btn);
+ });
+
+ if(answered[i]){
+  document.getElementById("feedback").textContent="✓ Already completed: "+q.explanation;
+ }
+}
+
+function answerQuestion(choice,button){
+ if(gameOver||answered[current])return;
+
+ const q=clues[current];
+ const buttons=document.querySelectorAll("#questionArea button");
+ buttons.forEach(function(b){b.disabled=true});
+
+ if(choice===q.answer){
   score++;
-  alert("Correct! +1 point");
- } else {
-  alert("Not quite! No point awarded. Read the explanation.");
+  button.classList.add("correct");
+  document.getElementById("feedback").textContent="✓ Correct! "+q.explanation;
+ }else{
+  button.classList.add("wrong");
+  buttons[q.answer].classList.add("correct");
+  document.getElementById("feedback").textContent="Not quite. "+q.explanation;
  }
 
+ answered[current]=true;
+ completed++;
  updateScore();
- renderQuiz();
+ renderClues();
+
+ if(completed===4){
+  document.getElementById("feedback").textContent+=" All evidence analyzed! You may now make your final accusation.";
+ }
 }
 
-function accuse(name) {
- if(accused) return;
+function updateScore(){
+ document.getElementById("score").textContent=score+" / 5";
+ document.getElementById("completed").textContent=completed+" / 4";
+ document.getElementById("progressBar").style.width=(completed/4*100)+"%";
+}
 
- if(!answered.every(Boolean)) {
-  alert("Complete all four evidence questions before your final accusation!");
+function showHint(){
+ if(gameOver)return;
+ const box=document.getElementById("hintBox");
+ box.hidden=false;
+
+ if(answered[current]){
+  box.textContent="This clue has already been solved. Select another clue.";
+ }else{
+  box.textContent="💡 Detective Hint: "+clues[current].hint;
+ }
+}
+
+function renderSuspects(){
+ const box=document.getElementById("suspectCards");
+
+ statements.forEach(function(s){
+  const div=document.createElement("div");
+  div.className="card";
+  const heading=document.createElement("h3");
+  heading.textContent=s[0];
+  const paragraph=document.createElement("p");
+  paragraph.textContent='"'+s[1]+'"';
+  div.appendChild(heading);
+  div.appendChild(paragraph);
+  box.appendChild(div);
+ });
+}
+
+function accuse(name){
+ if(gameOver)return;
+
+ if(completed<4){
+  alert("Detective, inspect and answer all four clue questions first!");
   return;
  }
 
- accused = true;
-
- if(name === "Noah") {
+ if(name==="Noah Price"){
   score++;
-  document.getElementById("ending").innerHTML =
-   "<h2>🏆 CASE SOLVED!</h2>" +
-   "<p>You correctly identified Noah Price!</p>" +
-   "<p>The technician used his access to disable the generator, enter the restricted hallway, and conceal his visit in the altered report.</p>" +
-   "<h2>Final Score: "+score+"/5</h2>" +
-   "<p>Excellent detective work!</p>";
- } else {
-  document.getElementById("ending").innerHTML =
-   "<h2>❌ WRONG ACCUSATION</h2>" +
-   "<p>The evidence points to Noah Price, the museum technician.</p>" +
-   "<h2>Final Score: "+score+"/5</h2>" +
-   "<p>Review the clues and try again!</p>";
+  endGame(true,"Excellent detective work! You discovered that Noah Price stole the Star of Aurora diamond.");
+ }else{
+  endGame(false,"Incorrect accusation! The real culprit was Noah Price. Review the evidence and try again.");
  }
-
- document.getElementById("ending").style.display = "block";
- document.getElementById("accusations").style.display = "none";
- document.getElementById("ending").scrollIntoView({behavior:"smooth"});
 }
 
-renderQuiz();
-</script>
+function endGame(won,message){
+ if(gameOver)return;
+ gameOver=true;
+ clearInterval(timerInterval);
 
+ document.getElementById("gameArea").hidden=true;
+ document.getElementById("result").hidden=false;
+
+ document.getElementById("resultTitle").textContent=
+  won?"🏆 CASE SOLVED!":"🔍 CASE UNSOLVED";
+
+ const content=document.getElementById("resultContent");
+ const box=document.createElement("div");
+ box.className="panel reveal";
+
+ const heading=document.createElement("h2");
+ heading.textContent=won?"Congratulations, Detective!":"The Mystery Remains!";
+
+ const messageText=document.createElement("p");
+ messageText.textContent=message;
+
+ const scoreText=document.createElement("h3");
+ scoreText.textContent="Final Score: "+score+" / 5";
+
+ const explanation=document.createElement("p");
+ explanation.textContent="Noah Price used his technician key at 8:42 PM, entered the restricted service room, and manually disabled the backup generator. He wore a maintenance uniform to disguise himself and altered the maintenance report to hide his visit. During the blackout, he stole the Star of Aurora diamond.";
+
+ const ending=document.createElement("h3");
+ ending.textContent="💎 Case closed. The diamond has been recovered!";
+
+ box.appendChild(heading);
+ box.appendChild(messageText);
+ box.appendChild(scoreText);
+ box.appendChild(document.createElement("hr"));
+ box.appendChild(document.createElement("h3"));
+ box.lastChild.textContent="The Full Explanation";
+ box.appendChild(explanation);
+ box.appendChild(ending);
+
+ content.innerHTML="";
+ content.appendChild(box);
+}
+</script>
 </body>
 </html>
 
-        
+  
