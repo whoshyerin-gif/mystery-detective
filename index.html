@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mystery Detective</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #090b16;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+}
+
+.container {
+  width: 100%;
+  max-width: 850px;
+  text-align: center;
+  padding: 45px 25px;
+  border: 1px solid #343750;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #171b31, #0c1020);
+  box-shadow: 0 0 35px #6b42a833;
+}
+
+.icon {
+  font-size: 65px;
+  margin-bottom: 20px;
+}
+
+.tag {
+  color: #b69aff;
+  letter-spacing: 4px;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: clamp(35px, 8vw, 65px);
+  color: #ffffff;
+  margin-bottom: 15px;
+  letter-spacing: 3px;
+}
+
+h1 span {
+  color: #a88aff;
+}
+
+.description {
+  color: #b8bdd0;
+  line-height: 1.8;
+  max-width: 550px;
+  margin: 0 auto 30px;
+}
+
+.case {
+  background: #20243b;
+  border: 1px solid #444968;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 25px auto;
+  max-width: 550px;
+}
+
+.case h2 {
+  color: #d0b9ff;
+  margin-bottom: 12px;
+}
+
+.case p {
+  color: #c3c6d6;
+  line-height: 1.7;
+}
+
+button {
+  background: #9165e8;
+  color: white;
+  border: none;
+  padding: 16px 35px;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #b08bff;
+  transform: scale(1.04);
+}
+
+#message {
+  display: none;
+  margin-top: 25px;
+  padding: 20px;
+  background: #252b43;
+  border-radius: 12px;
+  line-height: 1.8;
+}
+
+footer {
+  color: #777e99;
+  font-size: 12px;
+  margin-top: 35px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="icon">🔎</div>
+
+  <p class="tag">A MYSTERY AWAITS YOU</p>
+
+  <h1>MYSTERY <span>DETECTIVE</span></h1>
+
+  <p class="description">
+    Welcome, Detective. A precious diamond has disappeared.
+    Four suspects. Several clues. One truth.
+    Can you solve the mystery?
+  </p>
+
+  <div class="case">
+    <h2>CASE #001</h2>
+    <p><strong>The Missing Diamond</strong></p>
+    <p>Location: Blackthorn Museum</p>
+    <p>Incident: The Star of Aurora disappeared
+    during an 8:45 PM blackout.</p>
+    <p>Suspects: 4</p>
+    <p>Status: UNRESOLVED</p>
+  </div>
+
+  <button onclick="startGame()">
+    START INVESTIGATION →
+  </button>
+
+  <div id="message">
+    <h2>Welcome, Detective! 🕵️</h2>
+    <p>Your investigation is about to begin.</p>
+    <p>Keep your eyes open. Every clue matters!</p>
+  </div>
+
+  <footer>
+    MYSTERY DETECTIVE © 2026 | CLASSIFIED CASE FILE
+  </footer>
+
+</div>
+
+<script>
+function startGame() {
+  document.getElementById("message").style.display = "block";
+}
+</script>
+
+</body>
+  </html>
